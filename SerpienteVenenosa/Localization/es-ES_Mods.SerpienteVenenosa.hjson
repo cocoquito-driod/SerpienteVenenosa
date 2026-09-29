@@ -1,0 +1,46 @@
+Keybinds.SpitVenom.DisplayName: Escupir veneno
+
+Common: {
+	SpitKeyHint: Pulsá {0} para escupir veneno
+	Unbound: (tecla sin asignar)
+	MustSurface: ¡Salí a la superficie primero!
+}
+
+Buffs: {
+	SerpentForm: {
+		DisplayName: Forma de Serpiente Emplumada
+		Description: Sos una serpiente gigante. Movete con las teclas de movimiento y atravesá los bloques
+	}
+
+	SerpentVenom: {
+		DisplayName: Veneno de Serpiente
+		Description: El veneno te consume lentamente
+	}
+}
+
+Items: {
+	SerpentFeather: {
+		DisplayName: Pluma de la Serpiente
+		Tooltip:
+			'''
+			Te transforma en una serpiente emplumada gigante
+			Usala de nuevo para volver a la normalidad
+			'''
+	}
+
+	SerpentEgg: {
+		DisplayName: Huevo de Serpiente
+		Tooltip: Invoca a la Serpiente Emplumada
+	}
+}
+
+NPCs: {
+	SerpentHead.DisplayName: Serpiente Emplumada
+	SerpentBody.DisplayName: Serpiente Emplumada
+	SerpentTail.DisplayName: Serpiente Emplumada
+}
+
+Projectiles: {
+	VenomSpit.DisplayName: Escupitajo venenoso
+	VenomSpitHostile.DisplayName: Escupitajo venenoso
+}

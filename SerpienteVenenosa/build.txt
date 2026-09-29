@@ -1,0 +1,4 @@
+displayName = Serpiente Venenosa
+author = Cocoquito
+version = 0.2
+homepage = https://github.com/cocoquito-driod/SerpienteVenenosa

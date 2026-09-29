@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Import tModLoader mod properties -->
+  <Import Project="..\tModLoader.targets" />
+
+  <!-- General -->
+  <PropertyGroup>
+    <AssemblyName>SerpienteVenenosa</AssemblyName>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+</Project>

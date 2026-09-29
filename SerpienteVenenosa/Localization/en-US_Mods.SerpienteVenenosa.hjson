@@ -1,0 +1,46 @@
+Keybinds.SpitVenom.DisplayName: Spit Venom
+
+Common: {
+	SpitKeyHint: Press {0} to spit venom
+	Unbound: (unbound key)
+	MustSurface: Surface first!
+}
+
+Buffs: {
+	SerpentForm: {
+		DisplayName: Feathered Serpent Form
+		Description: You are a giant serpent. Move with the movement keys and burrow through blocks
+	}
+
+	SerpentVenom: {
+		DisplayName: Serpent Venom
+		Description: Venom is slowly eating away at you
+	}
+}
+
+Items: {
+	SerpentFeather: {
+		DisplayName: Serpent Plume
+		Tooltip:
+			'''
+			Transforms you into a giant feathered serpent
+			Use it again to return to normal
+			'''
+	}
+
+	SerpentEgg: {
+		DisplayName: Serpent Egg
+		Tooltip: Summons the Feathered Serpent
+	}
+}
+
+NPCs: {
+	SerpentHead.DisplayName: Feathered Serpent
+	SerpentBody.DisplayName: Feathered Serpent
+	SerpentTail.DisplayName: Feathered Serpent
+}
+
+Projectiles: {
+	VenomSpit.DisplayName: Venom Spit
+	VenomSpitHostile.DisplayName: Venom Spit
+}
