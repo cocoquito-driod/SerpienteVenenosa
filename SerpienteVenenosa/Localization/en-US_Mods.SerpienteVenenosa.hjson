@@ -32,6 +32,11 @@ Items: {
 		DisplayName: Serpent Egg
 		Tooltip: Summons the Feathered Serpent
 	}
+
+	SerpentRelic: {
+		DisplayName: Serpentine Relic
+		Tooltip: Your serpent form is twice as long
+	}
 }
 
 NPCs: {

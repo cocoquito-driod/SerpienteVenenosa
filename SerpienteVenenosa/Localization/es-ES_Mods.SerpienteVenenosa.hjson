@@ -32,6 +32,11 @@ Items: {
 		DisplayName: Huevo de Serpiente
 		Tooltip: Invoca a la Serpiente Emplumada
 	}
+
+	SerpentRelic: {
+		DisplayName: Reliquia Serpentina
+		Tooltip: Tu forma de serpiente mide el doble de largo
+	}
 }
 
 NPCs: {

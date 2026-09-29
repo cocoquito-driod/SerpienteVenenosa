@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SerpienteVenenosa.Common;
 using SerpienteVenenosa.Content.Buffs;
 using Terraria;
 using Terraria.Audio;
@@ -27,6 +28,7 @@ public class VenomSpit : ModProjectile
 
 	public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
 		target.AddBuff(ModContent.BuffType<SerpentVenom>(), 300);
+		FlaskEffects.Apply(Main.player[Projectile.owner], target);
 	}
 
 	public override void OnKill(int timeLeft) => VenomBehavior.Splash(Projectile);

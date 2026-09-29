@@ -49,6 +49,12 @@ public abstract class SerpentSegment : ModNPC
 	// Nunca desaparece por su cuenta: lo maneja la cabeza.
 	public override bool CheckActive() => false;
 
+	public override bool? CanBeHitByProjectile(Projectile projectile) =>
+		SerpentReflection.CanBeHitByProjectile(NPC, projectile);
+
+	// La vida es la de la cabeza (realLife): la barra la dibuja solo la cabeza.
+	public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
+
 	public override void AI() {
 		NPC ahead = Main.npc[(int)NPC.ai[1]];
 		NPC head = NPC.realLife >= 0 ? Main.npc[NPC.realLife] : null;
@@ -108,8 +114,8 @@ public class SerpentBody : SerpentSegment
 	}
 
 	protected override void SegmentAI(NPC head) {
-		// Segunda fase: algunos segmentos del cuerpo también escupen veneno.
-		if (Main.netMode == NetmodeID.MultiplayerClient || head.life >= head.lifeMax / 2 || SegmentIndex % 4 != 2)
+		// Segunda fase: uno de cada ocho segmentos del cuerpo también escupe veneno.
+		if (Main.netMode == NetmodeID.MultiplayerClient || head.life >= head.lifeMax / 2 || SegmentIndex % 8 != 2)
 			return;
 
 		if (ShootTimer <= 0f)

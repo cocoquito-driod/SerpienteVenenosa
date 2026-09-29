@@ -21,9 +21,11 @@ namespace SerpienteVenenosa.Content.NPCs;
 [AutoloadBossHead]
 public class SerpentHead : ModNPC
 {
-	public const int BodyCount = 24;
+	public const int BodyCount = 48;
 
 	private const float PreferredAimDistance = 340f;
+	// Distancia desde el centro de la cara hasta la barra de vida chica.
+	private const float HealthBarHeight = 90f;
 	private const float SpitSpeed = 9f;
 	// Momentos (en ticks desde que empieza a apuntar) en los que escupe. 60 ticks = 1 segundo.
 	private static readonly int[] SpitTicks = [55, 100];
@@ -56,6 +58,9 @@ public class SerpentHead : ModNPC
 
 	// Segunda fase: por debajo de la mitad de vida es más rápida y agresiva.
 	private bool Enraged => NPC.life < NPC.lifeMax / 2;
+
+	// Velocidad de persecución. En la segunda fase era 14; se bajó un 15%.
+	private float ChaseSpeed => Enraged ? 14f * 0.85f : 11f;
 
 	private int ChaseTime => Enraged ? 120 : 150;
 
@@ -99,6 +104,17 @@ public class SerpentHead : ModNPC
 		potionType = ItemID.HealingPotion;
 	}
 
+	public override bool? CanBeHitByProjectile(Projectile projectile) =>
+		SerpentReflection.CanBeHitByProjectile(NPC, projectile);
+
+	public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) {
+		// Una sola barra chica para todo el jefe (los segmentos no dibujan la suya), siempre sobre la cabeza,
+		// por encima de las plumas. La barra grande de jefe de abajo de la pantalla no cambia.
+		scale = 1.5f;
+		position = NPC.Center - new Vector2(0f, HealthBarHeight);
+		return true;
+	}
+
 	public override void AI() {
 		if (Main.netMode != NetmodeID.MultiplayerClient && !SegmentsSpawned) {
 			SpawnSegments();
@@ -130,9 +146,8 @@ public class SerpentHead : ModNPC
 	}
 
 	private void Chase(Player player) {
-		float speed = Enraged ? 14f : 11f;
 		float inertia = Enraged ? 18f : 22f;
-		NPC.velocity = (NPC.velocity * (inertia - 1f) + NPC.DirectionTo(player.Center) * speed) / inertia;
+		NPC.velocity = (NPC.velocity * (inertia - 1f) + NPC.DirectionTo(player.Center) * ChaseSpeed) / inertia;
 
 		if (++Timer >= ChaseTime)
 			SwitchState(AIState.Aim, player);
@@ -168,7 +183,7 @@ public class SerpentHead : ModNPC
 
 		if (state == AIState.Chase) {
 			// La persecución arranca con un impulso hacia el jugador.
-			NPC.velocity = NPC.DirectionTo(player.Center) * (Enraged ? 11f : 9f);
+			NPC.velocity = NPC.DirectionTo(player.Center) * ChaseSpeed * 0.8f;
 			SoundEngine.PlaySound(SoundID.Roar with { Volume = 0.6f, Pitch = 0.3f }, NPC.Center);
 		}
 	}

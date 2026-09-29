@@ -28,7 +28,7 @@ public class SerpentDrawLayer : PlayerDrawLayer
 		Texture2D tail = TextureAssets.Npc[ModContent.NPCType<SerpentTail>()].Value;
 
 		// De la cola hacia adelante, para que cada segmento tape al de atrás y la cabeza quede encima.
-		int last = serpent.SegmentPositions.Length - 1;
+		int last = serpent.TailIndex;
 		for (int i = last; i >= 0; i--) {
 			Vector2 position = serpent.SegmentPositions[i];
 			float rotation = SerpentGeometry.SpriteRotation(serpent.SegmentAngles[i]);

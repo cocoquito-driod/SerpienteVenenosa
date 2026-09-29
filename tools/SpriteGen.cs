@@ -335,30 +335,6 @@ public static class SpriteGen
         return cv;
     }
 
-    // ---- Items (estilo 2x) ----
-    static Canvas FeatherItem()
-    {
-        Canvas cv = new Canvas(16, 16);
-        double bx = 3.2, by = 12.8, dx = 1, dy = -1, len = 13.5, wmax = 3.4;
-        double n = Math.Sqrt(2); dx /= n; dy /= n;
-        for (int y = 0; y < 16; y++) for (int x = 0; x < 16; x++)
-        {
-            double px = x + 0.5 - bx, py = y + 0.5 - by;
-            double s = px * dx + py * dy, d = -px * dy + py * dx;
-            if (s < -2.5 || s > len) continue;
-            if (s < 0) { if (Math.Abs(d) < 0.6) cv.Set(x, y, Color.FromArgb(255, 0xF2, 0xE8, 0xC8)); continue; }
-            double f = s / len;
-            double hw = wmax * Math.Pow(Math.Sin(Math.PI * Math.Pow(f, 0.7)), 0.6);
-            if (Math.Abs(d) > hw) continue;
-            Color[] ramp = f < 0.38 ? Red : f < 0.68 ? Yel : Blu;
-            int idx = d < 0 ? 2 : 1;
-            if (Math.Abs(d) < 0.55 && f < 0.92) { cv.Set(x, y, Color.FromArgb(255, 0xF2, 0xE8, 0xC8)); continue; }
-            cv.Set(x, y, ramp[idx]);
-        }
-        cv.OutlinePass(Outline);
-        return cv;
-    }
-
     // ---- Icono del debuff Veneno de Serpiente: una gota verde (estilo 2x, 16x16 -> 32x32) ----
     static Canvas VenomBuffIcon()
     {
@@ -375,24 +351,6 @@ public static class SpriteGen
         }
         cv.OutlinePass(ol);
         cv.Set(6, 8, hi); cv.Set(6, 9, hi); cv.Set(7, 7, hi); cv.Set(9, 12, dk); cv.Set(10, 11, dk);
-        return cv;
-    }
-
-    static Canvas EggItem()
-    {
-        Color ol = Color.FromArgb(255, 0x24, 0x3E, 0x1A), dk = Color.FromArgb(255, 0x5C, 0x92, 0x48), md = Color.FromArgb(255, 0x8F, 0xC4, 0x72), lt = Color.FromArgb(255, 0xC4, 0xE8, 0xA8), sp = Color.FromArgb(255, 0x3C, 0x6C, 0x2E);
-        Canvas cv = new Canvas(12, 15);
-        for (int y = 0; y < 15; y++) for (int x = 0; x < 12; x++)
-        {
-            double dx = (x + 0.5 - 6) / 5.6, dy = (y + 0.5 - 8.2) / 6.8;
-            if (dy < 0) dx *= 1 + (-dy) * 0.25;
-            if (dx * dx + dy * dy > 1) continue;
-            double l = -dx * 0.6 - dy * 0.8;
-            cv.Set(x, y, l > 0.45 ? lt : l > -0.35 ? md : dk);
-        }
-        int[,] spots = { { 4, 6 }, { 7, 9 }, { 5, 11 }, { 8, 4 }, { 3, 9 } };
-        for (int i = 0; i < spots.GetLength(0); i++) { cv.Set(spots[i, 0], spots[i, 1], sp); cv.Set(spots[i, 0] + 1, spots[i, 1], sp); }
-        cv.OutlinePass(ol);
         return cv;
     }
 
@@ -492,14 +450,9 @@ public static class SpriteGen
         Tail().Save(Path.Combine(modDir, @"Content\NPCs\SerpentTail.png"), 1);
 
         Venom().Save(Path.Combine(modDir, @"Content\Projectiles\VenomSpit.png"), 2);
-        FeatherItem().Save(Path.Combine(modDir, @"Content\Items\SerpentFeather.png"), 2);
-        EggItem().Save(Path.Combine(modDir, @"Content\Items\SerpentEgg.png"), 2);
         VenomBuffIcon().Save(Path.Combine(modDir, @"Content\Buffs\SerpentVenom.png"), 2);
-
-        Rectangle headCrop = new Rectangle(8, 20, 200, 200);
-        SaveResized(src, headCrop, 32, Path.Combine(modDir, @"Content\Buffs\SerpentForm.png"), null);
-        SaveResized(src, headCrop, 32, Path.Combine(modDir, @"Content\NPCs\SerpentHead_Head_Boss.png"), null);
         SaveResized(src, new Rectangle(0, 0, 256, 256), 80, Path.Combine(modDir, "icon.png"), Color.FromArgb(255, 0x1B, 0x2A, 0x1C));
+        // SerpentEgg, SerpentFeather, SerpentForm y SerpentHead_Head_Boss estan dibujados a mano: no se generan.
 
         using (Bitmap hb = new Bitmap(Path.Combine(modDir, @"Content\NPCs\SerpentHead.png")))
         using (Bitmap bb = new Bitmap(Path.Combine(modDir, @"Content\NPCs\SerpentBody.png")))

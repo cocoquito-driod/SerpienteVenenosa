@@ -19,6 +19,8 @@ namespace SerpienteVenenosa.Common.Players;
 public class SerpentPlayer : ModPlayer
 {
 	public const int BodySegments = 14;
+	// Con la Reliquia Serpentina equipada el cuerpo mide el doble.
+	public const int LongBodySegments = BodySegments * 2;
 
 	private const float MaxSpeed = 10f;
 	private const float Acceleration = 0.5f;
@@ -30,11 +32,15 @@ public class SerpentPlayer : ModPlayer
 	private const int ContactDamage = 28;
 	private const int ContactCooldownTicks = 20;
 
-	// Cuerpo visual (el último elemento es la cola). Cada cliente lo calcula por su cuenta: no se sincroniza.
-	public readonly Vector2[] SegmentPositions = new Vector2[BodySegments + 1];
-	public readonly float[] SegmentAngles = new float[BodySegments + 1];
+	// Cuerpo visual: se usan los elementos 0..TailIndex, y el de TailIndex es la cola. Tienen lugar para el
+	// cuerpo largo. Cada cliente lo calcula por su cuenta: no se sincroniza.
+	public readonly Vector2[] SegmentPositions = new Vector2[LongBodySegments + 1];
+	public readonly float[] SegmentAngles = new float[LongBodySegments + 1];
 	public float HeadRotation;
 	public int Facing = -1;
+	public bool LongBody;
+
+	public int TailIndex => LongBody ? LongBodySegments : BodySegments;
 
 	private Vector2 serpentVelocity;
 	// Posición a la que se movió la serpiente en este tick; se reaplica al final (ver PostUpdate).
@@ -48,6 +54,10 @@ public class SerpentPlayer : ModPlayer
 	public bool IsSerpent => Player.HasBuff(ModContent.BuffType<SerpentForm>());
 
 	public bool IsBuried => Collision.SolidCollision(Player.position, Player.width, Player.height);
+
+	public override void ResetEffects() {
+		LongBody = false;
+	}
 
 	public override void SetControls() {
 		if (!IsSerpent)
@@ -196,7 +206,8 @@ public class SerpentPlayer : ModPlayer
 	private void UpdateSegments() {
 		SerpentGeometry.GetBodyAnchor(Player.Center, HeadRotation, Facing, out Vector2 aheadPosition, out float aheadAngle);
 		float spacing = SerpentGeometry.BodyAnchorGap;
-		for (int i = 0; i < SegmentPositions.Length; i++) {
+		// Si recién se equipó la reliquia, los segmentos nuevos salen de donde estaban y FollowSegment los alinea.
+		for (int i = 0; i <= TailIndex; i++) {
 			aheadAngle = SerpentGeometry.FollowSegment(ref SegmentPositions[i], aheadPosition, aheadAngle, spacing);
 			SegmentAngles[i] = aheadAngle;
 			aheadPosition = SegmentPositions[i];
@@ -236,6 +247,7 @@ public class SerpentPlayer : ModPlayer
 
 			npc.SimpleStrikeNPC(damage, npc.Center.X > Player.Center.X ? 1 : -1, knockBack: 6f, damageType: DamageClass.Generic);
 			npc.AddBuff(ModContent.BuffType<SerpentVenom>(), 180);
+			FlaskEffects.Apply(Player, npc);
 			contactCooldown[owner] = ContactCooldownTicks;
 		}
 	}
@@ -244,8 +256,8 @@ public class SerpentPlayer : ModPlayer
 		if (hitbox.Intersects(Utils.CenteredRectangle(Player.Center, new Vector2(64f))))
 			return true;
 
-		foreach (Vector2 position in SegmentPositions) {
-			if (hitbox.Intersects(Utils.CenteredRectangle(position, new Vector2(40f))))
+		for (int i = 0; i <= TailIndex; i++) {
+			if (hitbox.Intersects(Utils.CenteredRectangle(SegmentPositions[i], new Vector2(40f))))
 				return true;
 		}
 		return false;
