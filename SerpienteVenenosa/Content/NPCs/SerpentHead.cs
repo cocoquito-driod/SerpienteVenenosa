@@ -231,7 +231,7 @@ public class SerpentHead : ModNPC
 			int type = i == BodyCount ? ModContent.NPCType<SerpentTail>() : ModContent.NPCType<SerpentBody>();
 			// Start = previous: cada segmento queda en un índice mayor que el de adelante, así se actualiza
 			// después de él en el mismo tick y lo sigue sin retraso.
-			int index = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, type, previous, ai1: previous, ai2: i);
+			int index = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, type, previous, ai1: previous, ai2: i, ai3: NPC.whoAmI);
 			if (index >= Main.maxNPCs)
 				break;
 

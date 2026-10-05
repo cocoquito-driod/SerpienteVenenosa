@@ -10,7 +10,7 @@ Mod de [tModLoader](https://store.steampowered.com/app/1281930/tModLoader/) que 
 
 ## Cómo se juega
 
-- **Huevo de Serpiente** (20 bloques de barro + 5 esporas de la jungla, en una mesa de trabajo): invoca al jefe.
+- **Reliquia Emplumada** (20 bloques de barro + 5 esporas de la jungla, en una mesa de trabajo): invoca al jefe.
 - **Pluma de la Serpiente** (la suelta el jefe): te transforma en la serpiente. Te movés con WASD o Espacio, atravesás bloques y escupís veneno con **F** (se puede cambiar en Ajustes → Controles). Usala de nuevo, fuera de la tierra, para volver a la normalidad.
 - Los ataques de la serpiente envenenan y también aplican el frasco que tengas activo (icor, fuego maldito, etc.).
 - ⚠️ El jefe **refleja** los disparos de penetración infinita, como los del Cañón de Estrellas y el Súper Disparaestrellas: vuelven hacia vos y te hacen daño.

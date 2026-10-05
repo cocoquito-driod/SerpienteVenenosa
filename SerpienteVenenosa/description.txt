@@ -1,5 +1,6 @@
 Agrega a la Serpiente Emplumada, un jefe gusano gigante que atraviesa la tierra y escupe veneno.
 
-- Invocala con el Huevo de Serpiente (20 bloques de barro + 5 esporas de la jungla en una mesa de trabajo).
+- Invocala con la Reliquia Emplumada (20 bloques de barro + 5 esporas de la jungla en una mesa de trabajo).
+- ¡Cuidado! Refleja los disparos de penetración infinita, como los del Cañón de Estrellas: vuelven hacia vos.
 - Al vencerla suelta la Pluma de la Serpiente, que te transforma en una serpiente emplumada gigante.
-- Transformado te movés con las teclas de movimiento, atravesás bloques y escupís veneno con la tecla asignada (F por defecto).
+- Transformado te movés con las teclas de movimiento, atravesás bloques y escupís veneno con la tecla asignada (F por defecto). Tus ataques envenenan y aplican el frasco que tengas activo.

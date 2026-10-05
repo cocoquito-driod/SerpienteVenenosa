@@ -10,8 +10,8 @@ using Terraria.ModLoader;
 namespace SerpienteVenenosa.Content.NPCs;
 
 /// <summary>
-/// Segmento del jefe (cuerpo o cola). ai[1] = índice del NPC de adelante, ai[2] = posición en el cuerpo.
-/// Comparte vida con la cabeza (realLife) y desaparece si la cabeza ya no está.
+/// Segmento del jefe (cuerpo o cola). ai[1] = índice del NPC de adelante, ai[2] = posición en el cuerpo,
+/// ai[3] = índice de la cabeza. Comparte vida con la cabeza (realLife) y desaparece si la cabeza ya no está.
 /// </summary>
 public abstract class SerpentSegment : ModNPC
 {
@@ -56,9 +56,13 @@ public abstract class SerpentSegment : ModNPC
 	public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 
 	public override void AI() {
+		// El servidor no manda realLife a los clientes (no viaja en la sincronización de NPCs), pero ai[] sí:
+		// sin esto, en multijugador los segmentos no encontraban la cabeza y el cuerpo quedaba congelado.
+		NPC.realLife = (int)NPC.ai[3];
+
 		NPC ahead = Main.npc[(int)NPC.ai[1]];
-		NPC head = NPC.realLife >= 0 ? Main.npc[NPC.realLife] : null;
-		if (head is null || !head.active || head.type != ModContent.NPCType<SerpentHead>() || !ahead.active) {
+		NPC head = Main.npc[NPC.realLife];
+		if (!head.active || head.type != ModContent.NPCType<SerpentHead>() || !ahead.active) {
 			if (Main.netMode != NetmodeID.MultiplayerClient) {
 				NPC.life = 0;
 				NPC.active = false;
